@@ -56,7 +56,7 @@
                 <section class="archived">
                     <h2>Done</h2>
                     <?php
-                        //archive
+                    
                         while ($testArch = $arch->fetch()){
                             echo '<label class = "line"><input type="checkbox" name="list[]" value="'.$testArch['tâche'].'" checked>'.$testArch['tâche'].'</label><br/>';
                         }
