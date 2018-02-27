@@ -1,0 +1,62 @@
+@import url(https://fonts.googleapis.com/css?family=Bellefair);
+.page {
+  font-family: "Bellefair", serif;
+  background-image: url("wallpaper.jpg");
+  color: white;
+  border: 5px solid black;
+  width: 60vw;
+  height: 60vh;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 1vh 1vw 1vw grey; }
+  .page .aFaire {
+    display: flex;
+    border-radius: 8px;
+    justify-content: space-around;
+    margin: 0 5vw;
+    height: 40vh; }
+
+.activity {
+  border: 3px solid grey;
+  border-radius: 8px;
+  padding: 1vh 1vw;
+  height: 40vh;
+  overflow: scroll;
+  overflow-x: hidden; }
+  .activity .list {
+    background-color: white;
+    border: 10px solid white;
+    display: block;
+    width: 10vw;
+    color: #E82C0C;
+    text-align: left; }
+
+.entry {
+  border: 3px solid grey;
+  border-radius: 8px;
+  height: 40vh;
+  display: grid;
+  margin: auto;
+  width: 20vw;
+  padding: 1vh 1vw; }
+
+.archived {
+  border: 3px solid grey;
+  border-radius: 8px;
+  height: 40vh;
+  padding: 1vh 1vw;
+  overflow: scroll;
+  overflow-x: hidden; }
+  .archived .line {
+    background-color: white;
+    border: 10px solid white;
+    display: block;
+    width: 10vw;
+    text-decoration: line-through;
+    color: #E82C0C;
+    text-align: left; }
+
+.send {
+  margin: 8vh 8vw; }
+
+/*# sourceMappingURL=style.css.map */
