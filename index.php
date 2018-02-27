@@ -46,7 +46,6 @@
                     ?>
                     <button type="submit" name="archiver"><p>Archiver</p></button>
                 </section>
-                <!-- imprimer tout les falses -->
                 <section class="entry">
                     <h2>New Entry</h2>
                     <input type="text" name="todo" value="">
