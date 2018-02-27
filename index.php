@@ -4,7 +4,7 @@
             return $_POST[$origine];
         }
     }
-    $bd = new PDO ('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'LeRieur11');
+    $bd = new PDO ('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'ananas');
     $data = attribution('todo');
     $dataSanitized = filter_var($data, FILTER_SANITIZE_STRING);
     $last = $bd->query('select tâche from task where ID = (select max(ID) from task)');
