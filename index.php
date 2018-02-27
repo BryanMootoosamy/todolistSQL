@@ -15,9 +15,7 @@
     $archive = $bd->query('select tâche from task where archive = "false"');
     if (isset($_POST['archiver'])&& isset($_POST['list'])){
         for ($i = 0 ; $i < count($_POST['list']); $i++){
-
             $bd->exec('update task set archive = "true" where tâche = "'.$_POST['list'][$i].'"');
-
         }
     }
     if(isset($_POST['delete']) &&  isset($_POST['deletion'])) {
@@ -27,7 +25,6 @@
     }
     $test = $bd->query('select tâche from task where archive = "false"');
     $arch = $bd->query('select tâche from task where archive = "true"');
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,11 +40,9 @@
                 <section class="activity">
                     <h2>To do</h2>
                     <?php
-
                         while ($variabletest = $test->fetch()) {
                             echo '<label class="list"><input type="checkbox" name="list[]" value="'.$variabletest['tâche'].'">'.$variabletest['tâche'].'</label><br/>';
                         }
-
                     ?>
                     <button type="submit" name="archiver"><p>Archiver</p></button>
                 </section>
@@ -60,7 +55,6 @@
                 <section class="archived">
                     <h2>Done</h2>
                     <?php
-
                         while ($testArch = $arch->fetch()){
                             echo '<label class = "line"><input type="checkbox" name="deletion[]" value="'.$testArch['tâche'].'">'.$testArch['tâche'].'</label><br/>';
                         }
