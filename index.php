@@ -4,7 +4,11 @@
             return $_POST[$origine];
         }
     }
-    $bd = new PDO ('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'ananas');
+    try {
+        $bd = new PDO ('mysql:host=localhost;dbname=todolist;charset=utf8', 'root', 'ananas');
+    } catch (Exception $e) {
+        print_r("Erreur:" .$e->getMessage());
+    }
     $data = attribution('todo');
     $dataSanitized = filter_var($data, FILTER_SANITIZE_STRING);
     $last = $bd->query('select tâche from task where ID = (select max(ID) from task)');
@@ -40,8 +44,11 @@
                 <section class="activity">
                     <h2>To do</h2>
                     <?php
-                        while ($variabletest = $test->fetch()) {
-                            echo '<label class="list"><input type="checkbox" name="list[]" value="'.$variabletest['tâche'].'">'.$variabletest['tâche'].'</label><br/>';
+                        $variabletest = $test->fetchAll();
+                        foreach ($variabletest as  $value) {
+                            if ($value['archive'] = "false") {
+                                echo '<label class="list"><input type="checkbox" name="list[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
+                            }
                         }
                     ?>
                     <button type="submit" name="archiver"><p>Archiver</p></button>
@@ -54,8 +61,11 @@
                 <section class="archived">
                     <h2>Done</h2>
                     <?php
-                        while ($testArch = $arch->fetch()){
-                            echo '<label class = "line"><input type="checkbox" name="deletion[]" value="'.$testArch['tâche'].'">'.$testArch['tâche'].'</label><br/>';
+                        $testArch = $arch->fetchAll();
+                        foreach ($testArch as $value) {
+                            if ($value['archive'] = "true") {
+                                echo '<label class = "line"><input type="checkbox" name="deletion[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
+                            }
                         }
                     ?>
                     <button type="submit" name="delete"><p>Supprimer</p></button>
