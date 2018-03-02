@@ -9,17 +9,19 @@
     } catch (Exception $e) {
         print_r("Erreur:" .$e->getMessage());
     }
+    $false = 0;
+    $true = 1;
     $data = attribution('todo');
     $dataSanitized = filter_var($data, FILTER_SANITIZE_STRING);
     $last = $bd->query('select tâche from task where ID = (select max(ID) from task)');
     $lastdata = $last->fetch();
     if (!empty($dataSanitized) && isset($dataSanitized) && $dataSanitized != $lastdata['tâche']) {
-        $bd->query('insert into task (tâche, archive) values ("'.$dataSanitized.'", "false")');
+        $bd->query("insert into task (tâche, archive) values ('$dataSanitized','$false')");
     }
-    $archive = $bd->query('select tâche from task where archive = "false"');
+    $archive = $bd->query("select tâche from task where archive = 0");
     if (isset($_POST['archiver'])&& isset($_POST['list'])){
         for ($i = 0 ; $i < count($_POST['list']); $i++){
-            $bd->exec('update task set archive = "true" where tâche = "'.$_POST['list'][$i].'"');
+            $bd->exec('update task set archive = 1 where tâche = "'.$_POST['list'][$i].'"');
         }
     }
     if(isset($_POST['delete']) &&  isset($_POST['deletion'])) {
@@ -27,8 +29,8 @@
             $bd->exec('delete from task where tâche = "'.$_POST['deletion'][$a].'"');
         }
     }
-    $test = $bd->query('select tâche from task where archive = "false"');
-    $arch = $bd->query('select tâche from task where archive = "true"');
+    $test = $bd->query("select tâche from task where archive = $false");
+    $arch = $bd->query("select tâche from task where archive = $true");
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,9 +48,7 @@
                     <?php
                         $variabletest = $test->fetchAll();
                         foreach ($variabletest as  $value) {
-                            if ($value['archive'] = "false") {
-                                echo '<label class="list"><input type="checkbox" name="list[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
-                            }
+                            echo '<label class="list"><input type="checkbox" name="list[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
                         }
                     ?>
                     <button type="submit" name="archiver"><p>Archiver</p></button>
@@ -63,9 +63,7 @@
                     <?php
                         $testArch = $arch->fetchAll();
                         foreach ($testArch as $value) {
-                            if ($value['archive'] = "true") {
-                                echo '<label class = "line"><input type="checkbox" name="deletion[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
-                            }
+                            echo '<label class = "line"><input type="checkbox" name="deletion[]" value="'.$value['tâche'].'">'.$value['tâche'].'</label><br/>';
                         }
                     ?>
                     <button type="submit" name="delete"><p>Supprimer</p></button>
