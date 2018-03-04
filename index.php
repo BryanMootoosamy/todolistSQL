@@ -13,20 +13,26 @@
     $true = 1;
     $data = attribution('todo');
     $dataSanitized = filter_var($data, FILTER_SANITIZE_STRING);
+    $liste = filter_var_array($_POST['list'], FILTER_SANITIZE_STRING);
+    $deletion = filter_var_array($_POST['deletion'], FILTER_SANITIZE_STRING);
+    if (isset($_POST['delete'])) {$delButton = filter_var($_POST['delete'], FILTER_SANITIZE_STRING);};
+    if (isset($_POST['archiver'])) {$arcButton = filter_var($_POST['archiver'], FILTER_SANITIZE_STRING);};
+    if (isset($_POST['button'])) {$sendButton = filter_var($_POST['button'], FILTER_SANITIZE_STRING);};
     $last = $bd->query('select tâche from task where ID = (select max(ID) from task)');
     $lastdata = $last->fetch();
-    if (!empty($dataSanitized) && isset($dataSanitized) && $dataSanitized != $lastdata['tâche']) {
+    if (!empty($dataSanitized) && isset($dataSanitized) && $dataSanitized != $lastdata['tâche'] && isset($sendButton)) {
         $bd->query("insert into task (tâche, archive) values ('$dataSanitized','$false')");
     }
+
     $archive = $bd->query("select tâche from task where archive = 0");
-    if (isset($_POST['archiver'])&& isset($_POST['list'])){
-        for ($i = 0 ; $i < count($_POST['list']); $i++){
-            $bd->exec('update task set archive = 1 where tâche = "'.$_POST['list'][$i].'"');
+    if (isset($arcButton)&& isset($liste)){
+        for ($i = 0 ; $i < count($liste); $i++){
+            $bd->exec('update task set archive = 1 where tâche = "'.$liste[$i].'"');
         }
     }
-    if(isset($_POST['delete']) &&  isset($_POST['deletion'])) {
+    if(isset($delButton) &&  isset($deletion)) {
         for ($a = 0; $a < count($_POST['deletion']); $a++) {
-            $bd->exec('delete from task where tâche = "'.$_POST['deletion'][$a].'"');
+            $bd->exec('delete from task where tâche = "'.$deletion[$a].'"');
         }
     }
     $test = $bd->query("select tâche from task where archive = $false");
